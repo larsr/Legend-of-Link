@@ -354,12 +354,15 @@ def link(namn=""):
                 else:
                     myprint( "The monster attacks, but misses you!" )
             if command[0]=="attack":
-                damage = rand(0,3)
-                if damage > 0:
-                   myprint( "You attack the monster with %d power!" % damage )
-                   boss_power = boss_power - damage
+                if not "gold-sword" in inv:
+                    myprint("You need the gold-sword to attack the monster!")
                 else:
-                   myprint( "You attack but MISS the monster!  Help!" )
+                    damage = rand(0,3)
+                    if damage > 0:
+                       myprint( "You attack the monster with %d power!" % damage )
+                       boss_power = boss_power - damage
+                    else:
+                       myprint( "You attack but MISS the monster!  Help!" )
             if player_power <= 0:
                 myprint( "You have lost all your power! The MONSTER has won!"  )
                 myprint( "You and Link die...  The monster gets lunch!" )
