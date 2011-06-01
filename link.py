@@ -19,7 +19,7 @@ def link(namn=""):
 
     room = "castle"
     while namn == "":
-       myprint("<img src='img/Linkicon.jpg' width='300px'>")
+       myprint("<img src='img/Linkicon.jpg' width='500px'>")
        myprint( "Welcome to the Legend of Link!" )
        myprint( "What is your name?" )
        #namn = raw_input()
@@ -64,6 +64,44 @@ def link(namn=""):
     boss_power = 10
 
     while play == "yes":
+        image = None
+        if room == 'castle':
+            image = "castle"
+        elif room == "prison":
+            if whistle_count == 0:
+                image = "prison"
+            elif whistle_count == 1:
+                image = "prison2"
+            elif whistle_count == 2:
+                image = "prison3"
+            elif whistle_count >= 3:
+                image = "prison4"
+        elif room == 'courtyard':
+            image = 'courtyard'
+        elif room == "field":
+            if "sword" in inv:
+                if field_trolls == 3:
+                    image = "field1"
+                elif field_trolls == 2:
+                    image = "field2"
+                elif field_trolls == 1:
+                    image = "field3"
+                elif field_trolls == 0:
+                    image = "field4"
+            else:
+                if field_trolls > 0:
+                    pass # "fielddead", taken care of below
+                else:
+                    image = "field4"
+        elif room == "beach":
+            image = "beach"
+        
+            
+        if not image == None:
+            outp = get_output()
+            myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % image)
+            myprint(outp)
+
         myprint( "" )
         myprint( "You are in a " + room + "." )
         if room == "cave":
@@ -83,10 +121,12 @@ def link(namn=""):
         if len(command) == 1 and command[0]=="help":
             myprint( "You can type: " )
             myprint( "  look, inv, take (thing), drop (thing), go (place), " )
-            myprint( "  unlock (thing), read (think), whistle, " )
+            myprint( "  unlock (thing), read (thing), whistle, " )
             myprint( " ", newline=False)
-            if "sword" in inv:
-                 myprint( "attack,", newline=False )
+            if "sword" in inv or "gold-sword" in inv:
+                 myprint( "attack, ", newline=False )
+            if "shovel" in inv:
+                 myprint( "dig, ", newline=False )
             myprint( "help, or quit. " )
         if command[0] == "whistle":
             if room == "prison":
@@ -115,6 +155,8 @@ def link(namn=""):
             myprint( "You can go to " )
             for i in map[room]:
                 myprint( "* " + i )
+            if len(map[room]) == 0:
+                myprint("nowhere from here.")
             if room == "castle" and not "courtyard" in map["castle"]:
                 myprint( "You can see a locked door." )
         if command == ["look", "stones"] and room == "cave":
@@ -259,6 +301,10 @@ def link(namn=""):
                 myprint( "You can see %d trolls!  Help!" % field_trolls )
                 if not "sword" in inv:
                     myprint( "You need a sword!  The trolls attack you!  You lose!" )
+                    image = "fielddead"
+                    outp = get_output()
+                    myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % image)
+                    myprint(outp)
                     play = "no"
 
         if command == ["go", "fightfield"]:

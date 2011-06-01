@@ -57,6 +57,7 @@ class Command(webapp.RequestHandler):
     else:
         try:
             gametexts[name] = games[name].send(cmd).replace('\n','<br>').replace(" ","&nbsp;")
+            gametexts[name] = gametexts[name].replace("@@img@@","img src").replace("@@width@@"," width")
         except StopIteration:
             del games[name]
     self.redirect('/')
