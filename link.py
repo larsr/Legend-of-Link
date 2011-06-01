@@ -1,5 +1,5 @@
 from random import randint as rand
-
+from random import choice as random_choice
 
 output = ""
 def get_output():
@@ -59,7 +59,7 @@ def link(namn=""):
     whistle_count = 0
     found_link = False
     field_trolls = 3
-
+    
     player_power = 10
     boss_power = 10
 
@@ -121,6 +121,14 @@ def link(namn=""):
                 image = "cave"
             else:
                 image = "cave2"
+        elif room == "hole":
+            image = "Holebadweather"
+        elif room == "fightfield":
+            images = ["Fightfield","Fightfield2","Fightfield3","Fightfield4"]
+            if image in images:
+                images.remove(image)
+            image = random_choice(images)
+            
         if not image == None:
             outp = get_output()
             myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % image)
@@ -284,6 +292,7 @@ def link(namn=""):
             play = "no" 
         if room == "hole" and found_link == False:
             found_link = True
+            myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % "hole")
             myprint( "You found Link!  He is saved!" )
             myprint( 'Link says "Whoa! Hi '+namn+'!! After a while the ground' )
             myprint( 'cracked under my feet and I fell down in this ****** ****** **** hole.' )
@@ -296,6 +305,11 @@ def link(namn=""):
             myprint( ' but I dont think you have one so as consulation ' )
             myprint( 'you can get some brown conseved beans and some banana cream pie!."' )
             myprint( "TA DA DA DAAA you got some food." )
+            myprint( "" )
+            myprint( "(press RETURN)" )
+            yield get_output()
+            
+            
             myprint( 'You eat the food the fastest you can and say' )
             myprint( '"I acataly have a shovel"' )
             myprint( 'Link says "WHAT ACATALY!!"' )
@@ -366,12 +380,23 @@ def link(namn=""):
             if player_power <= 0:
                 myprint( "You have lost all your power! The MONSTER has won!"  )
                 myprint( "You and Link die...  The monster gets lunch!" )
+                image = "Fightfielddead"
+                outp = get_output()
+                myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % image)
+                myprint(outp)
                 play = "no"
             elif boss_power <= 0:
                 myprint( "You give the monster a blow with your sword and" )
                 myprint( "the monster gets its last look on this world. For ever!" )
                 myprint( "You win!" )
                 myprint( "" )
+                outp = get_output()
+                myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % "Defeated")
+                myprint(outp)
+                myprint( "(press RETURN)" )
+                yield get_output()
+                
+                myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % "ending")
                 myprint( """ 
      24 days later you and Link arrive with a train to the royal palace of hyrule.
     The king's servant whaits for you on the station.
@@ -388,9 +413,16 @@ def link(namn=""):
     'Now and forever' the king says 'are you two the biggest knights in hyrules history'
 
     """ + namn + " and Link" )
+                myprint( "(press RETURN)" )
+                yield get_output()
+                myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % "THEEND")
+                myprint( "" )
+                myprint( "The end    (press RETURN)" )
+                yield get_output()
+                
                 play = "no"
 
-    myprint( "" )
+
     myprint( "The end    (press RETURN)" )
     yield get_output()
 
