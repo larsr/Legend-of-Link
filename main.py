@@ -55,7 +55,10 @@ class Command(webapp.RequestHandler):
         games[name] = link.link()
         gametexts[name] = games[name].next().replace('\n','<br>')
     else:
-        gametexts[name] = games[name].send(cmd).replace('\n','<br>').replace(" ","&nbsp;")
+        try:
+            gametexts[name] = games[name].send(cmd).replace('\n','<br>').replace(" ","&nbsp;")
+        except StopIteration:
+            del games[name]
     self.redirect('/')
 
 application = webapp.WSGIApplication(

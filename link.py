@@ -315,7 +315,10 @@ def link(namn=""):
                 play = "no"
 
     myprint( "" )
-    myprint( "The end" )
+    myprint( "The end    (press RETURN)" )
+    yield get_output()
+
+    
 
 
 
