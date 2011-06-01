@@ -116,7 +116,11 @@ def link(namn=""):
                 image = "pier2"
         elif room == "mountain":
             image = "Mountain"
-            
+        elif room == "cave":
+            if not "hole" in map[room]:
+                image = "cave"
+            else:
+                image = "cave2"
         if not image == None:
             outp = get_output()
             myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % image)
@@ -239,7 +243,6 @@ def link(namn=""):
                 else:
                     myprint( "You found a secret passage!" )
                     map["cave"].append("hole")        
-                    map["hole"].append("cave")        
         if len(command) == 2 and command[0] == "read" and command[1] == "note":
             if "note" in inv:
                 myprint( "The note says:" )
