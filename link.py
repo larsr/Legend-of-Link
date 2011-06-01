@@ -66,7 +66,12 @@ def link(namn=""):
     while play == "yes":
         image = None
         if room == 'castle':
-            image = "castle"
+            if "courtyard" in map[room]:
+                image = "castle3"
+            elif not "note" in items[room]:
+                image = "castle2"
+            else:
+                image = "castle"
         elif room == "prison":
             if whistle_count == 0:
                 image = "prison"
@@ -75,9 +80,15 @@ def link(namn=""):
             elif whistle_count == 2:
                 image = "prison3"
             elif whistle_count >= 3:
-                image = "prison4"
+                if "key" in items[room]:
+                    image = "prison4"
+                else:
+                    image = "exprison5"
         elif room == 'courtyard':
-            image = 'courtyard'
+            if "sword" in items[room]:
+                image = "courtyard2"
+            else:
+                image = "courtyard"
         elif room == "field":
             if "sword" in inv:
                 if field_trolls == 3:
@@ -94,8 +105,17 @@ def link(namn=""):
                 else:
                     image = "field4"
         elif room == "beach":
-            image = "beach"
-        
+            if "bucket" in items[room]:
+                image = "beach"
+            else:
+                image = "beach2"
+        elif room == "pier":
+            if "shovel" in items[room]:
+                image = "pier"
+            else:
+                image = "pier2"
+        elif room == "mountain":
+            image = "Mountain"
             
         if not image == None:
             outp = get_output()
@@ -254,6 +274,10 @@ def link(namn=""):
             myprint( "if you can find him..." )
         if room == "water":
             myprint( "You can't swim. You drowned! " )
+            image = "Waterdead"
+            outp = get_output()
+            myprint("<@@img@@='img/%s.jpg'@@width@@='500px'>" % image)
+            myprint(outp)
             play = "no" 
         if room == "hole" and found_link == False:
             found_link = True
