@@ -84,9 +84,9 @@ def link(namn=""):
             myprint( "You can type: " )
             myprint( "  look, inv, take (thing), drop (thing), go (place), " )
             myprint( "  unlock (thing), read (think), whistle, " )
-            myprint( " ", )
+            myprint( " ", newline=False)
             if "sword" in inv:
-                 myprint( "attack,", )
+                 myprint( "attack,", newline=False )
             myprint( "help, or quit. " )
         if command[0] == "whistle":
             if room == "prison":
@@ -256,7 +256,7 @@ def link(namn=""):
                         map[room].append("courtyard")
 
             if field_trolls > 0:
-                myprint( "You can see ",field_trolls,"trolls!  Help!" )
+                myprint( "You can see %d trolls!  Help!" % field_trolls )
                 if not "sword" in inv:
                     myprint( "You need a sword!  The trolls attack you!  You lose!" )
                     play = "no"
@@ -275,15 +275,15 @@ def link(namn=""):
                 else:
                     damage = rand(0,7)
                 if damage > 0:
-                    myprint( "The monster attacks you! You are hurt with",damage )
+                    myprint( "The monster attacks you! You are hurt with %d" % damage )
                     player_power = player_power - damage
-                    myprint(  "You have",player_power," power left." )
+                    myprint(  "You have %d power left." % player_power )
                 else:
                     myprint( "The monster attacks, but misses you!" )
             if command[0]=="attack":
                 damage = rand(0,3)
                 if damage > 0:
-                   myprint( "You attack the monster with",damage,"power!" )
+                   myprint( "You attack the monster with %d power!" % damage )
                    boss_power = boss_power - damage
                 else:
                    myprint( "You attack but MISS the monster!  Help!" )
