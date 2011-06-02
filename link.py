@@ -153,7 +153,7 @@ def link(namn=""):
         if len(command) == 1 and command[0]=="help":
             myprint( "You can type: " )
             myprint( "  look, inv, take (thing), drop (thing), go (place), " )
-            myprint( "  unlock (thing), read (thing), whistle, " )
+            myprint( "  unlock (thing), read (thing), whistle, restart," )
             myprint( " ", newline=False)
             if "sword" in inv or "gold-sword" in inv:
                  myprint( "attack, ", newline=False )

@@ -1,9 +1,7 @@
-import cgi
+import os
 
-from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-import os
 from google.appengine.ext.webapp import template
 
 import link
@@ -13,26 +11,14 @@ gametexts = {}
 class MainPage(webapp.RequestHandler):
 
   def get(self):
-    user = users.get_current_user()
-    if not user:
-      url = users.create_login_url(self.request.uri)
-      self.redirect(url)
-      return
-    else:
-      url = users.create_logout_url(self.request.uri)
-      url_linktext = user.email()+ ' logout'
-      name = user.email()
-
+    ip =  self.request.remote_addr
     global games, gametexts
-    if not name in games:
-        games[name]=link.link()
-        gametexts[name]=games[name].next().replace('\n','<br>')
+    if not ip in games:
+        games[ip]=link.link()
+        gametexts[ip]=games[ip].next().replace('\n','<br>')
         
     template_values = {
-      'user':user.email(),
-      'url': url,
-      'url_linktext': url_linktext,
-      'text':gametexts[name]
+      'text':gametexts[ip]
       }
 
     path = os.path.join(os.path.dirname(__file__), 'index.html')
@@ -40,26 +26,19 @@ class MainPage(webapp.RequestHandler):
 
 class Command(webapp.RequestHandler):
   def post(self):
+    ip =  self.request.remote_addr
     global games,gametexts
-    user = users.get_current_user()
-    if not user:
-      url = users.create_login_url(self.request.uri)
-      self.redirect(url)
-      return
-    else:
-      name = user.email()
-
     cmd = self.request.get('content')[:80]
 
     if cmd == "restart":
-        games[name] = link.link()
-        gametexts[name] = games[name].next().replace('\n','<br>')
+        games[ip] = link.link()
+        gametexts[ip] = games[name].next().replace('\n','<br>')
     else:
         try:
-            gametexts[name] = games[name].send(cmd).replace('\n','<br>').replace(" ","&nbsp;")
-            gametexts[name] = gametexts[name].replace("@@img@@","img src").replace("@@width@@"," width")
+            gametexts[ip] = games[ip].send(cmd).replace('\n','<br>').replace(" ","&nbsp;")
+            gametexts[ip] = gametexts[ip].replace("@@img@@","img src").replace("@@width@@"," width")
         except StopIteration:
-            del games[name]
+            del games[ip]
     self.redirect('/')
 
 application = webapp.WSGIApplication(
